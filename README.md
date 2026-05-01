@@ -1,30 +1,27 @@
-# 🧪 Pre-Entrega Automation Testing
+# Pre-Entrega Automation Testing
 
 Proyecto de automatización de pruebas sobre el sitio **[saucedemo.com](https://www.saucedemo.com)**, desarrollado con Python, Pytest y Selenium WebDriver.
 
 ---
 
-## 📌 Propósito
+## Propósito
 
 El objetivo de este proyecto es demostrar el uso de herramientas de automatización de pruebas para validar flujos críticos de una aplicación web real. Se automatizan los siguientes escenarios:
 
-- ✅ Login de usuario con credenciales válidas e inválidas
+- ✅ Login de usuario con credenciales 
 - ✅ Validación del catálogo de productos
 - ✅ Interacción con el carrito de compras
 - ✅ Casos de borde: usuario bloqueado, contraseña vacía, precio inválido, etc.
 
-> ⚠️ **Nota:** Los tests de Selenium WebDriver (navegación real en browser) se agregarán en la entrega final, una vez cubiertos esos contenidos en el curso.
 
----
-
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 
 | Tecnología | Versión | Uso |
 |---|---|---|
-| Python | 3.10+ | Lenguaje principal |
-| Pytest | Latest | Framework de testing |
-| pytest-html | Latest | Generación de reportes HTML |
-| Selenium WebDriver | Latest | Automatización de browser *(próximamente)* |
+| Python | 3.12 | Lenguaje principal |
+| Pytest | 8.1.1 | Framework de testing |
+| pytest-html | 4.1.1 | Generación de reportes HTML |
+| Selenium WebDriver | 4.43.0 | Automatización de browser|
 | Git / GitHub | — | Control de versiones |
 
 ---
@@ -34,37 +31,44 @@ El objetivo de este proyecto es demostrar el uso de herramientas de automatizaci
 ```
 pre-entrega-automation-testing-Fux Gisela/
 │
-├── utils/                        # Funciones auxiliares reutilizables
+├── utils/                               # Funciones auxiliares reutilizables
 │   ├── __init__.py
-│   ├── auth_funciones.py         # Lógica de registro y login
-│   └── carrito_funciones.py      # Lógica del carrito de compras
+│   ├── auth_funciones.py                # Lógica de registro y login
+│   ├── carrito_funciones.py
+    ├── selenium_functions_inventory.py  # Lógica de inventario con Selenium
+    ├── selenium_functions_carrito.py    # Lógica de carrito con Selenium
+    └── selenium_functions_login.py      # Lógica de login con Selenium
+
 │
-├── tests/                        # Casos de prueba
+├── tests/                               # Casos de prueba
 │   ├── __init__.py
-│   ├── conftest.py               # Fixtures compartidos entre tests
-│   ├── test_auth.py              # Tests de autenticación
-│   └── test_carrito.py          # Tests del carrito
+│   ├── conftest.py                      # Fixtures compartidos entre tests
+│   ├── test_auth.py                     # Tests de autenticación
+│   └── test_carrito.py                  # Tests de carrito
+    ├──   test_login_selenium.py         # Tests de login Selenium
+    ├──   test_carrito_selenium          # Tests de carrito Selenium
+    └──   test_selenium_inventory        # Tests de inventory Selenium
 │
 ├── reports/                      # Reportes generados automáticamente
 │   └── reporte.html              # Reporte HTML de la última ejecución
-│
 ├── assets/                       # Recursos estáticos (estilos del reporte)
 │   └── style.css
+
 │
 ├── .gitignore                    # Archivos ignorados por Git
+├── venv                          # Entorno virtual 
 ├── requirements.txt              # Dependencias del proyecto
 └── README.md                     # Este archivo
 ```
 
----
 
 ##  Instalación de Dependencias
 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/[tu-usuario]/pre-entrega-automation-testing-1-GiselaFux.git
-cd pre-entrega-automation-testing-1-GiselaFux
+git clone https://github.com/GiselaFux/Pre-entrega-automation-testing-Gisela-Fux/
+cd Pre-entrega-automation-testing-Gisela-Fux
 ```
 
 ### 2. Crear y activar el entorno virtual
@@ -88,7 +92,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Cómo Ejecutar las Pruebas
+##  Cómo Ejecutar las Pruebas
 
 ### Ejecutar todos los tests
 
@@ -151,13 +155,11 @@ pytest tests/test_auth.py::test_login -v
 
 
 
-##  Tests con Selenium *(Próximamente)*
-
-Los siguientes tests se agregarán en la entrega final una vez cubiertos los contenidos de Selenium en el curso:
+##  Tests con Selenium 
 
 - [ ] `test_login_selenium.py` — Login real en browser, validación de URL `/inventory.html`
-- [ ] `test_catalogo_selenium.py` — Verificación de título, productos visibles, menú y filtros
-- [ ] `test_carrito_selenium.py` — Agregar producto, verificar contador y contenido del carrito
+- [ ] `test_selenium_inventory.py` — Verificación de título, productos visibles, menú y filtros
+- [ ] `test_carrito_selenium.py` — Agregar primer producto, verificar contador , navegar al carrito y contenido del carrito
 
 
 
@@ -176,8 +178,8 @@ Después de correr el comando con `--html`, el reporte queda guardado en:
 ## Autor
 
 Gisela Fux
- Curso de Automation Testing  
- 2026
+Curso de Automation Testing  
+2026
 
 
 
