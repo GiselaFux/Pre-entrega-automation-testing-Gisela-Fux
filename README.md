@@ -1,21 +1,34 @@
-Pre-Entrega Automation Testing
-Proyecto de automatización de pruebas sobre el sitio saucedemo.com, desarrollado con Python, Pytest y Selenium WebDriver.
+# Pre-Entrega Automation Testing
 
-Propósito
+Proyecto de automatización de pruebas sobre el sitio **[saucedemo.com](https://www.saucedemo.com)**, desarrollado con Python, Pytest y Selenium WebDriver.
+
+---
+
+## Propósito
+
 El objetivo de este proyecto es demostrar el uso de herramientas de automatización de pruebas para validar flujos críticos de una aplicación web real. Se automatizan los siguientes escenarios:
 
-✅ Login de usuario con credenciales
-✅ Validación del catálogo de productos
-✅ Interacción con el carrito de compras
-✅ Casos de borde: usuario bloqueado, contraseña vacía, precio inválido, etc.
-Tecnologías Utilizadas
-Tecnología	Versión	Uso
-Python	3.12	Lenguaje principal
-Pytest	8.1.1	Framework de testing
-pytest-html	4.1.1	Generación de reportes HTML
-Selenium WebDriver	4.43.0	Automatización de browser
-Git / GitHub	—	Control de versiones
-Estructura del Proyecto
+- ✅ Login de usuario con credenciales 
+- ✅ Validación del catálogo de productos
+- ✅ Interacción con el carrito de compras
+- ✅ Casos de borde: usuario bloqueado, contraseña vacía, precio inválido, etc.
+
+
+##  Tecnologías Utilizadas
+
+| Tecnología | Versión | Uso |
+|---|---|---|
+| Python | 3.12 | Lenguaje principal |
+| Pytest | 8.1.1 | Framework de testing |
+| pytest-html | 4.1.1 | Generación de reportes HTML |
+| Selenium WebDriver | 4.43.0 | Automatización de browser|
+| Git / GitHub | — | Control de versiones |
+
+---
+
+## Estructura del Proyecto
+
+```
 pre-entrega-automation-testing-Fux Gisela/
 │
 ├── utils/                               # Funciones auxiliares reutilizables
@@ -46,11 +59,21 @@ pre-entrega-automation-testing-Fux Gisela/
 ├── venv                          # Entorno virtual 
 ├── requirements.txt              # Dependencias del proyecto
 └── README.md                     # Este archivo
-Instalación de Dependencias
-1. Clonar el repositorio
+```
+
+
+##  Instalación de Dependencias
+
+### 1. Clonar el repositorio
+
+```bash
 git clone https://github.com/GiselaFux/Pre-entrega-automation-testing-Gisela-Fux/
 cd Pre-entrega-automation-testing-Gisela-Fux
-2. Crear y activar el entorno virtual
+```
+
+### 2. Crear y activar el entorno virtual
+
+```bash
 # Crear entorno virtual
 python -m venv venv
 
@@ -59,41 +82,104 @@ venv\Scripts\activate
 
 # Activar en Mac/Linux
 source venv/bin/activate
-3. Instalar las dependencias
+```
+
+### 3. Instalar las dependencias
+
+```bash
 pip install -r requirements.txt
-Cómo Ejecutar las Pruebas
-Ejecutar todos los tests
+```
+
+---
+
+##  Cómo Ejecutar las Pruebas
+
+### Ejecutar todos los tests
+
+```bash
 pytest tests/ -v
-Ejecutar un archivo de tests específico
+```
+
+### Ejecutar un archivo de tests específico
+
+```bash
 pytest tests/test_auth.py -v
 pytest tests/test_carrito.py -v
-Ejecutar y generar reporte HTML
+```
+
+### Ejecutar y generar reporte HTML
+
+```bash
 pytest tests/ -v --html=reports/reporte.html
-Ejecutar un test específico por nombre
+```
+
+### Ejecutar un test específico por nombre
+
+```bash
 pytest tests/test_auth.py::test_login -v
-Casos de Prueba — Autenticación (test_auth.py)
-test_register — Validaciones de registro
-| Caso | Usuario | Contraseña | Resultado Esperado | | | Ambos vacíos | "" | "" | Error: usuario y contraseña vacíos | | Usuario vacío | "" | secret_sauce | Error: usuario vacío | | Contraseña vacía | standard_user | "" | Error: contraseña vacía | | Contraseña corta | standard_user | short | Error: mínimo 6 caracteres | | Usuario no string | 123 | secret_sauce | Error: debe ser texto |
+```
 
-test_login — Validaciones de inicio de sesión
-| Caso | Usuario | Resultado Esperado | | | Login exitoso | standard_user | Redirige a /inventory.html | | Contraseña incorrecta | standard_user | Error: credenciales inválidas | | Usuario bloqueado | locked_out_user | "Usuario bloqueado" | | Usuario con glitch | performance_glitch_user | "Usuario con problemas de rendimiento" | | Usuario con errores | problem_user | "Usuario con problemas" |
 
-Casos de Prueba — Carrito (test_carrito.py)
-Test	Descripción
-test_agregar_productos	Agrega un producto y valida nombre, precio y largo del carrito
-test_agregar_varios_productos	Parametrizado con 5 productos distintos
-test_producto_con_precio_cero_lanza_valueerror	Valida que precio 0.0 lance ValueError
-Tests con Selenium
- test_login_selenium.py — Login real en browser, validación de URL /inventory.html
- test_selenium_inventory.py — Verificación de título, productos visibles, menú y filtros
- test_carrito_selenium.py — Agregar primer producto, verificar contador , navegar al carrito y contenido del carrito
-Reporte de Ejecución
-Después de correr el comando con --html, el reporte queda guardado en:
 
-reports/reporte.html
+##  Casos de Prueba — Autenticación (`test_auth.py`)
 
-Abrilo directamente en tu navegador para ver los resultados detallados de cada test.
+### `test_register` — Validaciones de registro
 
-Autor
-Gisela Fux Curso de Automation Testing
+| Caso | Usuario | Contraseña | Resultado Esperado |
+|
+| Ambos vacíos | `""` | `""` | Error: usuario y contraseña vacíos |
+| Usuario vacío | `""` | `secret_sauce` | Error: usuario vacío |
+| Contraseña vacía | `standard_user` | `""` | Error: contraseña vacía |
+| Contraseña corta | `standard_user` | `short` | Error: mínimo 6 caracteres |
+| Usuario no string | `123` | `secret_sauce` | Error: debe ser texto |
+
+### `test_login` — Validaciones de inicio de sesión
+
+| Caso | Usuario | Resultado Esperado |
+|
+| Login exitoso | `standard_user` | Redirige a `/inventory.html` |
+| Contraseña incorrecta | `standard_user` | Error: credenciales inválidas |
+| Usuario bloqueado | `locked_out_user` | "Usuario bloqueado" |
+| Usuario con glitch | `performance_glitch_user` | "Usuario con problemas de rendimiento" |
+| Usuario con errores | `problem_user` | "Usuario con problemas" |
+
+
+
+##  Casos de Prueba — Carrito (`test_carrito.py`)
+
+| Test | Descripción |
+|---|---|
+| `test_agregar_productos` | Agrega un producto y valida nombre, precio y largo del carrito |
+| `test_agregar_varios_productos` | Parametrizado con 5 productos distintos |
+| `test_producto_con_precio_cero_lanza_valueerror` | Valida que precio `0.0` lance `ValueError` |
+
+
+
+##  Tests con Selenium 
+
+- [ ] `test_login_selenium.py` — Login real en browser, validación de URL `/inventory.html`
+- [ ] `test_selenium_inventory.py` — Verificación de título, productos visibles, menú y filtros
+- [ ] `test_carrito_selenium.py` — Agregar primer producto, verificar contador , navegar al carrito y contenido del carrito
+
+
+
+##  Reporte de Ejecución
+
+Después de correr el comando con `--html`, el reporte queda guardado en:
+
+
+   reports/reporte.html
+   
+
+ Abrilo directamente en tu navegador para ver los resultados detallados de cada test.
+
+
+
+## Autor
+
+Gisela Fux
+Curso de Automation Testing  
 2026
+
+
+
