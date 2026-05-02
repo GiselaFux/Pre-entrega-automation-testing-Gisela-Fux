@@ -56,7 +56,7 @@ def pytest_runtest_makereport(item, call):
             print(f"\n Screenshot guardada: {ruta}")
 
 
-""" explicacion:   ¿Qué es un hook?Es una función especial que pytest ejecuta automáticamente en momentos específicos — vos no la llamás, pytest la llama solo.
+""" explicacion:    ¿Qué es un hook?Es una función especial que pytest ejecuta automáticamente en momentos específicos — vos no la llamás, pytest la llama solo.
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)   tryfirst → este hook corre antes que cualquier otro  ---hookwrapper → permite ejecutar código ANTES y DESPUÉS del test
 pythondef pytest_runtest_makereport(item, call): --pytest la llama automáticamente después de cada test----item → el test que acaba de correcall → la fase del test (setup, call, teardown)
 pythonoutcome = yield    -----yield → acá corre el test
