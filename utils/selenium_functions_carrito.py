@@ -1,20 +1,26 @@
-from selenium.webdriver.common.by import By  # type: ignore
-from selenium.webdriver.support.ui import WebDriverWait  # type: ignore
-from selenium.webdriver.support import expected_conditions as EC  # type: ignore
-
-print("Imports OK")
-
+from selenium.webdriver.common.by import By  
+from selenium.webdriver.support.ui import WebDriverWait  
+from selenium.webdriver.support import expected_conditions as EC  
 
 def agregar_primer_producto(driver):
-    """Hace clic en el botón 'Add to cart' del primer producto del catálogo."""
+    # Espera a que haya al menos un producto cargado
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.CLASS_NAME, "inventory_item"))
     )
+
+    # Toma el primer producto de la lista
     primer_producto = driver.find_elements(By.CLASS_NAME, "inventory_item")[0]
     nombre = primer_producto.find_element(By.CLASS_NAME, "inventory_item_name").text
-    primer_producto.find_element(By.TAG_NAME, "button").click()
-    return nombre  # devuelve el nombre para validarlo después
 
+    # Espera a que el botón 'Add to cart' esté clickeable dentro de ese producto (buscando por texto)
+    boton = WebDriverWait(primer_producto, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, ".//button[text()='Add to cart']")
+        )
+    )
+    boton.click()
+
+    return nombre  # devuelve el nombre del producto para validarlo después
 
 def obtener_contador_carrito(driver):
     """Espera y devuelve el número del badge del carrito."""

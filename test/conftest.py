@@ -1,44 +1,44 @@
 import pytest
-import os      # ← sin esto no puede crear la carpeta
-import time    # ← sin esto no puede hacer el timestamp
+import os
+import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from utils.auth_funciones import register
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def driver():
-    """Fixture que abre Chrome antes del test y lo cierra al terminar."""
+    """Un solo Chrome para toda la sesión de tests."""
     options = Options()
     options.add_argument("--start-maximized")
+    # options.add_argument("--headless")  # activa esto si querés más velocidad y nada de ventana
+    options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(5)
-    yield driver          # acá corre el test
-    driver.quit()         # esto se ejecuta siempre al terminar
-    
-@pytest.fixture
-def carrito_vacio():
-    return []
 
-@pytest.fixture
-def producto():
-    return {"nombre": "Producto1", "precio": 10.0}
+    # Desactiva el gestor de contraseñas de Chrome para evitar un pop-up, lo tomma como amenaza y me bloquea los tests en el login, por eso lo desactivo.
+    # "Cambia la contraseña / contraseña encontrada en filtración de datos"
+    prefs = {
+        "credentials_enable_service": False,    # Desactiva el servicio de gestión de contraseñas.Evita que Chrome intente ofrecerte guardar contraseña.
+        "profile.password_manager_enabled": False,   # Deshabilita el gestor de contraseñas del perfil actual de Chrome.Evita el pop-up que pregunta si quieres guardar la contraseña.
+        "profile.password_manager_leak_detection": False # Desactiva la función de detección de fugas de contraseñas.Evita que aparezca el pop-up que me frena los tests.
+    }
+    options.add_experimental_option("prefs", prefs) # Le dice a Chrome: “arrancá con estas preferencias (prefs) ya configuradas”, por ejemplo desactivar el gestor de contraseñas y sus avisos.
 
-@pytest.fixture
-def usuario_registrado():
-    register("standard_user", "secret_sauce")
-    return "standard_user"
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
 
-      
-# prueba de ejemplo para mostrar el hook de captura de pantalla
-  
+    yield driver
 
+    driver.quit()
+
+
+# Hook: captura screenshot si el test falla
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     """
-    Hook que captura una screenshot automaticamente si un test falla.
+    Hook que captura una screenshot automáticamente si un test falla.
     La imagen se guarda en reports/screenshots/ con nombre y timestamp.
     """
     outcome = yield
@@ -54,22 +54,3 @@ def pytest_runtest_makereport(item, call):
             ruta = os.path.join(carpeta, f"FALLO_{nombre}_{timestamp}.png")
             driver.save_screenshot(ruta)
             print(f"\n Screenshot guardada: {ruta}")
-
-
-""" explicacion:     ¿Qué es un hook?Es una función especial que pytest ejecuta automáticamente en momentos específicos — vos no la llamás, pytest la llama solo.
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)   tryfirst → este hook corre antes que cualquier otro  ---hookwrapper → permite ejecutar código ANTES y DESPUÉS del test
-pythondef pytest_runtest_makereport(item, call): --pytest la llama automáticamente después de cada test----item → el test que acaba de correcall → la fase del test (setup, call, teardown)
-pythonoutcome = yield    -----yield → acá corre el test
-report = outcome.get_result()    -----después del yield tenés el resultado del test
-pythonif report.when == "call" and report.failed:      ----when == "call" → solo cuando corre el cuerpo del test (no el setup)  ---report.failed → solo si falló
-pythondriver = item.funcargs.get("driver")
-if driver:
-    driver.save_screenshot(ruta)-----agarra el fixture driver del test que falla saca una captura de pantalla automática
-Flujo completo simplificado:
-test corre
-    ↓
-¿falló?
-    ↓ sí
-¿tiene driver?
-    ↓ sí
-📸 screenshot automática en reports/screenshots/"""
