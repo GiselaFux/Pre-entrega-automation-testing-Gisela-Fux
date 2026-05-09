@@ -1,8 +1,3 @@
-import pytest
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-""" from test.conftest import driver """
 from utils.selenium_functions_inventory import obtener_titulo_inventario, obtener_productos, obtener_nombre_producto, obtener_nombres_productos, obtener_precio_producto, verificar_menu, verificar_filtro, verificar_carrito_icono
 from utils.selenium_functions_login import hacer_login
 

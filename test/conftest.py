@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session")#scope="session" hace que el fixture se cree una sola vez al inicio de sesión de tests y se reutilice en todos los tests sin volver a crearse.
 def driver():
     """Un solo Chrome para toda la sesión de tests."""
     options = Options()
